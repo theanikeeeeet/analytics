@@ -1,35 +1,101 @@
-# analytics-ui
+# Analytics Dashboard
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+A minimal real-time analytics system that tracks user events and displays live insights.
 
-## Built with v0
+## Features
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+- **Real-time Event Tracking**: Instantly capture toast notifications and custom events
+- **Live Dashboard**: Auto-refresh statistics every 30 seconds
+- **MongoDB Storage**: Persist all analytics data
+- **Session Tracking**: Unique session identification
+- **Auto Cleanup**: Automatic deletion of events older than 30 days
+- **Interactive Charts**: Timeline and event distribution visualization
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_NwWpTviIa8RAYjCY1GxYsnpfKc4z)
+## Tech Stack
 
-## Getting Started
+- **Frontend**: Next.js, React, TypeScript
+- **Backend**: Express.js, MongoDB, Mongoose
+- **Charts**: Recharts
+- **Styling**: Tailwind CSS
+- **Real-time**: Fetch with 30s interval refresh
 
-First, run the development server:
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+MONGODB_URI=mongodb://localhost:27017/analytics
+PORT=5000
+```
 
-## Learn More
+## Quick Start
 
-To learn more, take a look at the following resources:
+1. **Start MongoDB**
+   ```bash
+   mongod
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+2. **Run development server**
+   ```bash
+   npm run dev
+   ```
 
-<a href="https://v0.app/chat/api/kiro/clone/theanikeeeeet/analytics-ui" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+3. **View live dashboard**
+   - Navigate to `http://localhost:3000/analytics`
+   - Dashboard auto-updates every 30 seconds
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/analytics/track` | Track an event |
+| GET | `/api/analytics/events` | Fetch all events (paginated) |
+| GET | `/api/analytics/stats` | Get live statistics |
+| GET | `/api/analytics/timeline` | Get 7-day timeline |
+| GET | `/api/analytics/top-events` | Get top 10 events |
+| DELETE | `/api/analytics/cleanup` | Remove events >30 days old |
+
+## Dashboard Features
+
+- **KPI Cards**: Total events, unique users, last hour activity
+- **Timeline Chart**: Real-time event trends (7 days)
+- **Top Events**: Most frequent event types
+- **Recent Events**: Searchable & filterable history
+- **Auto-refresh**: Updates every 30 seconds
+
+## How It Works
+
+1. Toast notifications trigger `trackEvent()` function
+2. Events sent to `/api/analytics/track`
+3. MongoDB stores event data
+4. Dashboard fetches data via API endpoints
+5. Recharts visualizes data in real-time
+
+## Project Structure
+
+```
+analytics/
+├── src/
+│   ├── config/database.ts
+│   ├── models/Analytics.ts
+│   ├── routes/analytics.ts
+│   └── server.ts
+├── pages/
+│   ├── api/analytics/[...slug].ts
+│   └── analytics.tsx
+├── hooks/
+│   └── use-toast.ts
+└── README.md
+```
+
+## License
+
+MIT
