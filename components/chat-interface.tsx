@@ -101,7 +101,9 @@ export function ChatInterface() {
             >
               <p className="text-sm md:text-base leading-relaxed">{message.text}</p>
               <p className={`text-xs mt-2 ${message.sender === 'user' ? 'text-blue-100' : 'text-muted-foreground'}`}>
-                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                {message.timestamp instanceof Date
+                  ? `${String(message.timestamp.getHours()).padStart(2, '0')}:${String(message.timestamp.getMinutes()).padStart(2, '0')}`
+                  : '00:00'}
               </p>
             </div>
           </div>
